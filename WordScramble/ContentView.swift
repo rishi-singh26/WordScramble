@@ -15,7 +15,15 @@ struct ContentView: View {
     @State private var errorTtile = ""
     @State private var errorMessage = ""
     @State private var showingError = false
-
+    
+    var score: Int {
+        var score = 0
+        for word in usedWords {
+            score += word.count
+        }
+        return score
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -42,7 +50,20 @@ struct ContentView: View {
                 Text(errorMessage)
             }
             .toolbar {
-                Button("New Game", action: startGame)
+                ToolbarItem(placement: .bottomBar) {
+                    HStack {
+                        Button(action: startGame) {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                Text("New Game")
+                                    .fontWeight(.bold)
+                            }
+                        }
+                        Spacer()
+                        Text("Score: \(score)")
+                            .fontWeight(.bold)
+                    }
+                }
             }
         }
     }
