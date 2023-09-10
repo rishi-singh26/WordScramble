@@ -14,6 +14,14 @@ struct ContentView: View {
         }
         .listStyle(.sidebar)
     }
+    
+    func loadFile() {
+        if let fileURL = Bundle.main.url(forResource: "some-file", withExtension: "txt") {
+            if let fileContents = try? String(contentsOf: fileURL) {
+                
+            }
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
