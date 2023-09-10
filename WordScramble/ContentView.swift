@@ -9,13 +9,22 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        List {
+            Section("Secton 1") {
+                Text("Statci row 1")
+                Text("Statci row 2")
+            }
+            Section("Secton 2") {
+                ForEach(0..<5) {
+                    Text("Dynamic row \($0)")
+                }
+            }
+            Section("Secton 3") {
+                Text("Statci row 3")
+                Text("Statci row 4")
+            }
         }
-        .padding()
+        .listStyle(.sidebar)
     }
 }
 
