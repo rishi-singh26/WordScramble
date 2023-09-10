@@ -41,13 +41,16 @@ struct ContentView: View {
             } message: {
                 Text(errorMessage)
             }
+            .toolbar {
+                Button("New Game", action: startGame)
+            }
         }
     }
     
     func addNewWord() {
         let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        guard answer.count > 0 else { return }
-        
+        guard answer.count > 2 else { return }
+        guard answer != rootWord else { return }
         guard isOriginal(word: answer) else { return wordError(title: "Word used alredy", message: "Be more original") }
         guard isPossible(word: answer) else { return wordError(title: "Word not possible", message: "You can't spell that from '\(rootWord)'") }
         guard isReal(word: answer) else { return wordError(title: "Word not recognised", message: "You can't just make them up, you know!") }
@@ -63,6 +66,7 @@ struct ContentView: View {
             if let startWords = try? String(contentsOf: startWordsURL) {
                 let allWords = startWords.components(separatedBy: "\n")
                 rootWord = allWords.randomElement() ?? "silkworm"
+                usedWords = []
                 return
             }
         }
