@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B58F8B42AB6292300265BF7 /* WordScramble.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5B58F8B22AB6292300265BF7 /* WordScramble.xcdatamodeld */; };
+		5B58F8B62AB62B5000265BF7 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58F8B52AB62B5000265BF7 /* DataController.swift */; };
+		5B58F8B82AB62C3300265BF7 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58F8B72AB62C3300265BF7 /* GameView.swift */; };
 		5BECB6E12AADC0E00096890E /* WordScrambleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB6E02AADC0E00096890E /* WordScrambleApp.swift */; };
 		5BECB6E32AADC0E00096890E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB6E22AADC0E00096890E /* ContentView.swift */; };
 		5BECB6E52AADC0E10096890E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BECB6E42AADC0E10096890E /* Assets.xcassets */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B58F8B32AB6292300265BF7 /* WordScramble.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WordScramble.xcdatamodel; sourceTree = "<group>"; };
+		5B58F8B52AB62B5000265BF7 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		5B58F8B72AB62C3300265BF7 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		5BECB6DD2AADC0E00096890E /* WordScramble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordScramble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BECB6E02AADC0E00096890E /* WordScrambleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordScrambleApp.swift; sourceTree = "<group>"; };
 		5BECB6E22AADC0E00096890E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -55,7 +61,10 @@
 			children = (
 				5BECB6E02AADC0E00096890E /* WordScrambleApp.swift */,
 				5BECB6E22AADC0E00096890E /* ContentView.swift */,
+				5B58F8B72AB62C3300265BF7 /* GameView.swift */,
 				5BECB6EE2AADD00B0096890E /* start.txt */,
+				5B58F8B52AB62B5000265BF7 /* DataController.swift */,
+				5B58F8B22AB6292300265BF7 /* WordScramble.xcdatamodeld */,
 				5BECB6E42AADC0E10096890E /* Assets.xcassets */,
 				5BECB6E62AADC0E10096890E /* Preview Content */,
 			);
@@ -142,7 +151,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BECB6E32AADC0E00096890E /* ContentView.swift in Sources */,
+				5B58F8B62AB62B5000265BF7 /* DataController.swift in Sources */,
+				5B58F8B42AB6292300265BF7 /* WordScramble.xcdatamodeld in Sources */,
 				5BECB6E12AADC0E00096890E /* WordScrambleApp.swift in Sources */,
+				5B58F8B82AB62C3300265BF7 /* GameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +355,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5B58F8B22AB6292300265BF7 /* WordScramble.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5B58F8B32AB6292300265BF7 /* WordScramble.xcdatamodel */,
+			);
+			currentVersion = 5B58F8B32AB6292300265BF7 /* WordScramble.xcdatamodel */;
+			path = WordScramble.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5BECB6D52AADC0E00096890E /* Project object */;
 }

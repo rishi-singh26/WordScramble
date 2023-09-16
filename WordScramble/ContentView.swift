@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: []) var games: FetchedResults<Game>
+    
     @State private var usedWords = [String]()
     @State private var rootWord = ""
     @State private var newWord = ""
     
-    @State private var errorTtile = ""
-    @State private var errorMessage = ""
-    @State private var showingError = false
+    @State private var searchText = ""
     
     var score: Int {
         var score = 0
@@ -27,28 +28,20 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                Section {
-                    TextField("Enter your word", text: $newWord)
-                        .autocapitalization(.none)
-                }
-                
-                Section {
-                    ForEach(usedWords, id: \.self) { word in
-                        HStack {
-                            Image(systemName: "\(word.count).circle")
-                            Text(word)
+                Section(header: Text("Games").font(.headline).foregroundColor(.black)) {
+                    ForEach(games) { game in
+                        NavigationLink {
+                            GameView(game: game)
+                        } label: {
+                            HStack {
+                                Image(systemName: "\(game.wordsCount).circle")
+                                Text(game.word ?? "Unknown game word")
+                            }
                         }
                     }
                 }
             }
-            .navigationTitle(rootWord)
-            .onSubmit(addNewWord)
-            .onAppear(perform: startGame)
-            .alert(errorTtile, isPresented: $showingError) {
-                Button("Ok", role: .cancel) { }
-            } message: {
-                Text(errorMessage)
-            }
+            .navigationTitle("Word Scramble")
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
                     HStack {
@@ -60,26 +53,16 @@ struct ContentView: View {
                             }
                         }
                         Spacer()
-                        Text("Score: \(score)")
+                        Text("Games: \(games.count)")
                             .fontWeight(.bold)
                     }
                 }
             }
+            .searchable(text: $searchText)
+            .listStyle(.sidebar)
+            .onAppear(perform: getDocumentsDirectory)
         }
-    }
-    
-    func addNewWord() {
-        let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        guard answer.count > 2 else { return }
-        guard answer != rootWord else { return }
-        guard isOriginal(word: answer) else { return wordError(title: "Word used alredy", message: "Be more original") }
-        guard isPossible(word: answer) else { return wordError(title: "Word not possible", message: "You can't spell that from '\(rootWord)'") }
-        guard isReal(word: answer) else { return wordError(title: "Word not recognised", message: "You can't just make them up, you know!") }
-        
-        withAnimation {
-            usedWords.insert(answer, at: 0)
-        }
-        newWord = ""
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func startGame() {
@@ -87,40 +70,24 @@ struct ContentView: View {
             if let startWords = try? String(contentsOf: startWordsURL) {
                 let allWords = startWords.components(separatedBy: "\n")
                 rootWord = allWords.randomElement() ?? "silkworm"
-                usedWords = []
+                
+                let newGame = Game(context: moc)
+                newGame.id = UUID()
+                newGame.word = allWords.randomElement() ?? "silkworm"
+                newGame.wordsCount = 0
+                newGame.createdOn = Date.now
+                
+                try? moc.save()
                 return
             }
         }
         fatalError("Could not start.txt from bundle.")
     }
     
-    func isOriginal(word: String) -> Bool {
-        return !usedWords.contains(word)
-    }
-    
-    func isPossible(word: String) -> Bool {
-        var tempWord = rootWord
-        for letter in word {
-            if let pos = tempWord.firstIndex(of: letter) {
-                tempWord.remove(at: pos)
-            } else {
-                return false
-            }
-        }
-        return true
-    }
-    
-    func isReal(word: String) -> Bool {
-        let checker = UITextChecker()
-        let range = NSRange(location: 0, length: word.utf16.count)
-        let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
-        return misspelledRange.location == NSNotFound
-    }
-    
-    func wordError(title: String, message: String) {
-        errorTtile = title
-        errorMessage = message
-        showingError = true
+    func getDocumentsDirectory() {
+//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+        print(paths[0])
     }
 }
 
