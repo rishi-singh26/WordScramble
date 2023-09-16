@@ -27,40 +27,27 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                Section(header: Text("Games").font(.headline).foregroundColor(.black)) {
-                    ForEach(games) { game in
-                        NavigationLink {
-                            GameView(game: game)
-                        } label: {
-                            HStack {
-                                Image(systemName: "\(game.wordsCount).circle")
-                                Text(game.word ?? "Unknown game word")
+            GamesListView(searchText: searchText)
+                .navigationTitle("Word Scramble")
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        HStack {
+                            Button(action: startGame) {
+                                HStack {
+                                    Image(systemName: "plus.circle.fill")
+                                    Text("New Game")
+                                        .fontWeight(.bold)
+                                }
                             }
+                            Spacer()
+                            Text("Games: \(games.count)")
+                                .fontWeight(.bold)
                         }
                     }
                 }
-            }
-            .navigationTitle("Word Scramble")
-            .toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    HStack {
-                        Button(action: startGame) {
-                            HStack {
-                                Image(systemName: "plus.circle.fill")
-                                Text("New Game")
-                                    .fontWeight(.bold)
-                            }
-                        }
-                        Spacer()
-                        Text("Games: \(games.count)")
-                            .fontWeight(.bold)
-                    }
-                }
-            }
-            .searchable(text: $searchText)
-            .listStyle(.sidebar)
-            .onAppear(perform: getDocumentsDirectory)
+                .searchable(text: $searchText)
+                .listStyle(.sidebar)
+                .onAppear(perform: getDocumentsDirectory)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
@@ -74,7 +61,6 @@ struct ContentView: View {
                 let newGame = Game(context: moc)
                 newGame.id = UUID()
                 newGame.word = allWords.randomElement() ?? "silkworm"
-                newGame.wordsCount = 0
                 newGame.createdOn = Date.now
                 
                 try? moc.save()
@@ -85,7 +71,7 @@ struct ContentView: View {
     }
     
     func getDocumentsDirectory() {
-//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        //        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
         print(paths[0])
     }

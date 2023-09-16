@@ -4,8 +4,7 @@
         <attribute name="createdOn" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="word" optional="YES" attributeType="String"/>
-        <attribute name="wordsCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="guessedWords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GuessedWord" inverseName="game" inverseEntity="GuessedWord"/>
+        <relationship name="guessedWords" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GuessedWord" inverseName="game" inverseEntity="GuessedWord"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="word"/>
@@ -15,9 +14,9 @@
     </entity>
     <entity name="GuessedWord" representedClassName="GuessedWord" syncable="YES" codeGenerationType="class">
         <attribute name="createdOn" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="gameId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="word" optional="YES" attributeType="String"/>
+        <attribute name="gameId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="word" attributeType="String"/>
         <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="guessedWords" inverseEntity="Game"/>
     </entity>
 </model>
